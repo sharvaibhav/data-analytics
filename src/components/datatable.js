@@ -1,78 +1,64 @@
 import React,{Component} from 'react';
+import {ROW_COUNT,columns} from '../config/datatable-config'
+import ReactDataGrid from "react-data-grid";
 
-class DataTable extends Component {
+class Datatable extends Component{
 
-
-defaultColumnProperties = {
-  sortable: true,
-  width: 120
-};
-
-columns = [
-  {
-    key: "index",
-    name: "INDEX",
-    sortDescendingFirst: true
-  },
-  {
-    key: "title",
-    name: "Title"
-  },
-  {
-    key: "firstName",
-    name: "First Name"
-  },
-  {
-    key: "lastName",
-    name: "Last Name"
-  },
-  {
-    key: "email",
-    name: "Email"
-  },
-  {
-    key: "street",
-    name: "Street"
-  },
-  {
-    key: "zipCode",
-    name: "ZipCode"
-  },
-  {
-    key: "date",
-    name: "Date"
-  },
-  {
-    key: "jobTitle",
-    name: "Job Title"
-  },
-  {
-    key: "catchPhrase",
-    name: "Catch Phrase"
-  },
-  {
-    key: "jobArea",
-    name: "Job Area"
-  },
-  {
-    key: "jobType",
-    name: "Job Type"
+  state={
+    rows:this.props.initialRows
   }
-].map(c => ({ ...c, ...this.defaultColumnProperties }));
 
-ROW_COUNT = 50;
+  onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
+    this.setState(state => {
+      const rows = state.rows.slice();
+      for (let i = fromRow; i <= toRow; i++) {
+        rows[i] = { ...rows[i], ...updated };
+      }
+      return { rows };
+    });
+  };
 
-    render() {
-      return (
-        <div className="filters">
-          <select class="period-filter">
-            {this.props.periods.map(entry =>{
-                return <option value={entry}>{entry}</option>
-            })}
-        </select>
-        </div>
-      );
+  setRows = (rows)=>{
+    this.setState({rows: rows});
+  }
+
+  static getDerivedStateFromProps(props,state){
+    if(props && props.initialRows)
+      return {rows:state.rows};
+  }
+
+  sortRows = (initialRows, sortColumn, sortDirection) => rows => {
+    const comparer = (a, b) => {
+      if (sortDirection === "ASC") {
+        return a[sortColumn] > b[sortColumn] ? 1 : -1;
+      } else if (sortDirection === "DESC") {
+        return a[sortColumn] < b[sortColumn] ? 1 : -1;
+      }
+    };
+    return sortDirection === "NONE" ? initialRows : [...rows].sort(comparer);
+  };
+
+  render(){
+    const {initialRows} = this.props;
+    // const rows = this.state.rows;
+    if(this.state.rows && this.state.rows.length>0){
+      return(<ReactDataGrid
+        columns={columns}
+        rowGetter={i => this.state.rows[i]}
+        rowsCount={this.state.rows.length}
+        minHeight={500}
+        onGridRowsUpdated={this.onGridRowsUpdated}
+        onGridSort={(sortColumn, sortDirection) =>{
+          this.setState({rows:this.sortRows(initialRows, sortColumn, sortDirection)(this.state.rows)});
+        }
+        }
+        enableCellSelect={true}
+      />);
+    }else{
+      return (<> </>)
     }
+    
   }
-  
-  export default DataTable;
+}
+
+export default Datatable;
