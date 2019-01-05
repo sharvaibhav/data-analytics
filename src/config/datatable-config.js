@@ -39,4 +39,3 @@ export const defaultColumnProperties = {
     }
   ].map(c => ({ ...c, ...defaultColumnProperties }));
   
-  export const ROW_COUNT = 50;
