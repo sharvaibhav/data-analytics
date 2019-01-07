@@ -1,5 +1,5 @@
 import _ from "lodash";
-export const getPieDataFromSelectionData = (currentSelectionData)=>{
+export const getPieDataFromSelectionData = (currentSelectionData,currentPeriod)=>{
     let dataByProductLine = _.mapValues(_.groupBy(currentSelectionData, 'productline'),clist => clist.map(entry => entry.quantitySold ).reduce((accumulator, currentValue) => accumulator + currentValue));
     let dd =[]
     _.forOwn(dataByProductLine, function(value, key) {
@@ -16,3 +16,4 @@ export const getPieDataFromSelectionData = (currentSelectionData)=>{
     });
     return dd;
   }
+  

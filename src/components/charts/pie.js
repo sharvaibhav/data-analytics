@@ -1,19 +1,23 @@
 import React, { Component } from "react";
 import {getPieDataFromSelectionData} from "./../../config/pieDataHelper"
 import { VictoryPie } from "victory";
+import {periodSorter} from "../../config/common";
 
 class PieChart extends Component {
   constructor(props){
     super(props);
     this.state={
       currentSelectionData:this.props.data,
-      pieData:{}
+      currentPeriod : this.props.currentPeriod,
+      pieData:{},
+      completeData: this.props.data,
+      allPeriodSorted: periodSorter(Object.keys(props.completeData))
     }
   }
   
   componentDidMount(){
-    let {currentSelectionData} = this.state;
-    let derivedData = getPieDataFromSelectionData(currentSelectionData);
+    let {currentSelectionData,currentPeriod,completeData,allPeriodSorted} = this.state;
+    let derivedData = getPieDataFromSelectionData(currentSelectionData,currentPeriod,completeData,allPeriodSorted);
     this.setState({pieData:derivedData})
     console.log(derivedData);
   }
@@ -21,8 +25,8 @@ class PieChart extends Component {
 
 
   static getDerivedStateFromProps(props,state){
-    let {data} = props;
-    let derivedData = getPieDataFromSelectionData(data);
+    let {data,currentPeriod,completeData,allPeriodSorted} = props;
+    let derivedData = getPieDataFromSelectionData(data,currentPeriod,completeData,allPeriodSorted);
     return {
       currentSelectionData: data,
       pieData:derivedData

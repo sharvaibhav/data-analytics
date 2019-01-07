@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {ROW_COUNT,columns} from '../config/datatable-config'
+import {columns} from '../config/datatable-config'
 import ReactDataGrid from "react-data-grid";
 import {updateCurrentPeriodData} from './../action/updateDataAction';
 import {connect} from "react-redux";

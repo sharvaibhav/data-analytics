@@ -5,7 +5,7 @@ import Datatable from './components/datatable';
 import {fetchData} from './action/updateDataAction';
 import {FETCHED} from './config/action-constants'
 import {connect} from 'react-redux';
-
+import {periodSorter} from "./config/common";
 import PieChart from './components/charts/pie';
 import Bar from './components/charts/bar';
 
@@ -17,9 +17,8 @@ export class App extends Component {
   }
 
   static getDerivedStateFromProps(props,state){
-    
     return {
-      periods: Object.keys(props.completeData)
+      periods: periodSorter(Object.keys(props.completeData))
     }
   }
 
@@ -44,11 +43,11 @@ export class App extends Component {
           <div className="row">
             <div className="col-sm-5 chart-section">
             <h4 className="text-center"> Quantity Sold Per Product Line {currentPeriod} </h4>
-            <PieChart data={completeData[currentPeriod]} animate={{duration: 1000}}/>
+              <PieChart completeData = {completeData} data={completeData[currentPeriod]} animate={{duration: 1000}} currentPeriod={currentPeriod}/>
             </div>
           
             <div className="col-sm-7 chart-section">
-            <h4 className="text-center"> Quantity Sold Per Quarter </h4>
+            <h4 className="text-center"> Products Sold Per Quarter </h4>
             <Bar data={completeData} periods = {this.state.periods} />
             </div>
           </div>

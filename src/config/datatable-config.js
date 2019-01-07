@@ -10,6 +10,10 @@ export const defaultColumnProperties = {
       width:80
     },
     {
+      key: "Product",
+      name: "Product" 
+    },
+    {
       key: "quantitySold",
       name: "Quantity Sold",width:130
     },
@@ -32,10 +36,7 @@ export const defaultColumnProperties = {
     {
       key: "bunsinessUnit",
       name: "Business Unit" 
-    },
-    {
-      key: "Product",
-      name: "Product" 
     }
+    
   ].map(c => ({ ...c, ...defaultColumnProperties }));
   
