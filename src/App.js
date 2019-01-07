@@ -6,6 +6,9 @@ import {fetchData} from './action/updateDataAction';
 import {FETCHED} from './config/action-constants'
 import {connect} from 'react-redux';
 
+import PieChart from './components/charts/pie';
+import Bar from './components/charts/bar';
+
 export class App extends Component {
 
 
@@ -21,23 +24,36 @@ export class App extends Component {
   }
 
   render() {
-    const {completeData,status} = this.props;
+    const {completeData,status,currentPeriod} = this.props;
     if(status === FETCHED){
       return (
         <div className="container">
         
           <div className="row">
-            <div className="col-sm-4 filter-section">
-              <span className="lead">Duration</span>
+            <div className="col-sm-12 filter-section">
+            <strong>Duration</strong>
               <DurationFilters periods={this.state.periods} />
             </div>
           </div>
 
           <div className="row">
-            <div className="col-sm-12 table-section">
+            <div className="table-section">
               <Datatable initialRows={completeData[this.props.currentPeriod]} /> 
             </div>
           </div>
+          <div className="row">
+            <div className="col-sm-5 chart-section">
+            <h4 className="text-center"> Quantity Sold Per Product Line {currentPeriod} </h4>
+            <PieChart data={completeData[currentPeriod]} animate={{duration: 1000}}/>
+            </div>
+          
+            <div className="col-sm-7 chart-section">
+            <h4 className="text-center"> Quantity Sold Per Quarter </h4>
+            <Bar data={completeData} periods = {this.state.periods} />
+            </div>
+          </div>
+
+          
 
         </div>
       );

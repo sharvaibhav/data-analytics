@@ -1,11 +1,14 @@
 import React,{Component} from 'react';
 import {ROW_COUNT,columns} from '../config/datatable-config'
 import ReactDataGrid from "react-data-grid";
+import {updateCurrentPeriodData} from './../action/updateDataAction';
+import {connect} from "react-redux";
 
 class Datatable extends Component{
 
   state={
-    rows:this.props.initialRows
+    rows:this.props.initialRows,
+    cachedprop:null
   }
 
   onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
@@ -14,7 +17,8 @@ class Datatable extends Component{
       for (let i = fromRow; i <= toRow; i++) {
         rows[i] = { ...rows[i], ...updated };
       }
-      return { rows };
+      this.props.updateCurrentPeriodData({rows},this.props.currentPeriod);
+      
     });
   };
 
@@ -23,8 +27,11 @@ class Datatable extends Component{
   }
 
   static getDerivedStateFromProps(props,state){
-    // if(props && props.initialRows)
-      return {rows:props.initialRows};
+    if(props.initialRows != state.cachedprop){
+      return {cachedprop:props.initialRows,rows:props.initialRows};
+    }
+      else
+      return {rows:state.rows};
   }
 
   sortRows = (initialRows, sortColumn, sortDirection) => rows => {
@@ -46,7 +53,7 @@ class Datatable extends Component{
         columns={columns}
         rowGetter={i => this.state.rows[i]}
         rowsCount={this.state.rows.length}
-        minHeight={500}
+        minHeight={400}
         onGridRowsUpdated={this.onGridRowsUpdated}
         onGridSort={(sortColumn, sortDirection) =>{
           this.setState({rows:this.sortRows(initialRows, sortColumn, sortDirection)(this.state.rows)});
@@ -61,4 +68,19 @@ class Datatable extends Component{
   }
 }
 
-export default Datatable;
+
+const mapStateToProps = (state) =>{
+  return{
+    currentPeriod:state.completeDataSection.currentPeriod
+  }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return {
+    updateCurrentPeriodData: (data,currPeriod) => {
+      dispatch(updateCurrentPeriodData(data,currPeriod))
+    }
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Datatable);

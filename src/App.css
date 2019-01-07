@@ -1,0 +1,14 @@
+.filter-section{
+    margin-top:30px;
+    background-color: lightgray;
+}
+
+.table-section{
+    width:100%;
+    padding:20px 0 0 0px;
+}
+
+.chart-section{
+    padding-top:30px;
+    height:400px;
+}

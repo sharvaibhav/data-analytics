@@ -1,41 +1,41 @@
 export const defaultColumnProperties = {
     sortable: true,
-    width: 120,
     editable:true
   };
 
   export const columns = [
     {
       key: "index",
-      name: "ID"
+      name: "ID",
+      width:80
     },
     {
       key: "quantitySold",
-      name: "Quantity Sold", editable: true 
+      name: "Quantity Sold",width:130
     },
     {
       key: "unitPrice",
-      name: "Price", editable: true 
+      name: "Price" ,width:80
     },
     {
       key: "unitCost",
-      name: "Cost", editable: true 
+      name: "Cost",width:80
     },
     {
       key: "productline",
-      name: "Product Line", editable: true 
+      name: "Product Line" 
     },
     {
       key: "period",
-      name: "Duration(Period)", editable: true 
+      name: "Duration(Period)" 
     },
     {
       key: "bunsinessUnit",
-      name: "Business Unit", editable: true 
+      name: "Business Unit" 
     },
     {
       key: "Product",
-      name: "Product", editable: true 
+      name: "Product" 
     }
   ].map(c => ({ ...c, ...defaultColumnProperties }));
   
