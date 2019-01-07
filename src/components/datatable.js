@@ -23,8 +23,8 @@ class Datatable extends Component{
   }
 
   static getDerivedStateFromProps(props,state){
-    if(props && props.initialRows)
-      return {rows:state.rows};
+    // if(props && props.initialRows)
+      return {rows:props.initialRows};
   }
 
   sortRows = (initialRows, sortColumn, sortDirection) => rows => {

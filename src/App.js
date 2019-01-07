@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Filters from "./components/filters";
+import DurationFilters from "./components/duration-filters";
 import Datatable from './components/datatable';
 import {fetchData} from './action/updateDataAction';
 import {FETCHED} from './config/action-constants'
@@ -14,6 +14,7 @@ export class App extends Component {
   }
 
   static getDerivedStateFromProps(props,state){
+    
     return {
       periods: Object.keys(props.completeData)
     }
@@ -24,28 +25,20 @@ export class App extends Component {
     if(status === FETCHED){
       return (
         <div className="container">
+        
           <div className="row">
             <div className="col-sm-4 filter-section">
-              <h3>Sales Data</h3>
-              {this.state.periods.map(entry=>entry)}
-              <Filters periods={this.state.periods} />
-            </div>
-            <div className="col-sm-4 filter-section">
-              <h3>Sales Data</h3>
-              {this.state.periods.map(entry=>entry)}
-              <Filters periods={this.state.periods} />
-            </div>
-            <div className="col-sm-4 filter-section">
-              <h3>Sales Data</h3>
-              {this.state.periods.map(entry=>entry)}
-              <Filters periods={this.state.periods} />
+              <span className="lead">Duration</span>
+              <DurationFilters periods={this.state.periods} />
             </div>
           </div>
+
           <div className="row">
             <div className="col-sm-12 table-section">
-              { <Datatable initialRows={completeData[this.state.periods[0]]} /> }
+              <Datatable initialRows={completeData[this.props.currentPeriod]} /> 
             </div>
           </div>
+
         </div>
       );
     }else{
@@ -58,7 +51,8 @@ export class App extends Component {
 const mapStateToProps = (state) =>{
   return{
     completeData:state.completeDataSection.data,
-    status: state.completeDataSection.status
+    status: state.completeDataSection.status,
+    currentPeriod:state.completeDataSection.currentPeriod
   }
 }
 
