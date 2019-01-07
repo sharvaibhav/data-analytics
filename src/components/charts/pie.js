@@ -25,7 +25,8 @@ class PieChart extends Component {
 
 
   static getDerivedStateFromProps(props,state){
-    let {data,currentPeriod,completeData,allPeriodSorted} = props;
+    let {data,currentPeriod,completeData} = props;
+    let {allPeriodSorted} = state;
     let derivedData = getPieDataFromSelectionData(data,currentPeriod,completeData,allPeriodSorted);
     return {
       currentSelectionData: data,
@@ -34,7 +35,8 @@ class PieChart extends Component {
   }
 
   render() {
-    return <VictoryPie data = {this.state.pieData} animate={this.props.animate}/>;
+    return <VictoryPie data = {this.state.pieData} animate={this.props.animate}
+                        labels={(d,k,i) => d.xName + ": " + d.y1}/>;
   }
 }
 

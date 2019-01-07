@@ -42,7 +42,7 @@ export class App extends Component {
           </div>
           <div className="row">
             <div className="col-sm-5 chart-section">
-            <h4 className="text-center"> Quantity Sold Per Product Line {currentPeriod} </h4>
+            <h4 className="text-center"> Quantity Sold Per Product Line <b>{currentPeriod} </b> (Showing Avg. Change)</h4>
               <PieChart completeData = {completeData} data={completeData[currentPeriod]} animate={{duration: 1000}} currentPeriod={currentPeriod}/>
             </div>
           
